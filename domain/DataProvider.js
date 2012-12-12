@@ -19,6 +19,10 @@ var Link = new Schema({
 		order: Number
 });
 
+Link.statics.findAll = function (callback) {
+  return this.find(callback);
+}
+
 Page.statics.findByUrl = function (url, callback) {
   return this.find({ URL: url}, callback);
 }
@@ -33,6 +37,15 @@ mongoose.connect('mongodb://localhost/my_database');
 var link = new Link({label:"About", URL:"about", order: 1});
 console.log(link.label);
 link.save();
+
+/*
+Link.findAll(function(err, links){
+	if(!err) console.log(links);
+});
+*/
+Link.find(function(err, links){
+	if(!err) console.log(links);
+});
 
 var page = new Page({URL:"about", h1:"test h1"});
 page.save();

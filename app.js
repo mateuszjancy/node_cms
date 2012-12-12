@@ -7,9 +7,13 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , data = require('./routes/data');
 
+var mongoose = require("mongoose");
 var app = express();
+
+mongoose.connect('mongodb://localhost/my_database');
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -38,10 +42,8 @@ app.configure('development', function(){
 app.get('/', routes.index);
 
 //HTML Partials reguests
-app.get('/about', routes.about);
-app.get('/initiative', routes.initiative);
-app.get('/contact', routes.contact);
-app.get('/ask', routes.ask)
+app.get('/links', data.links);
+app.get('/page/:url', data.page);
 
 //JSON data requests
 
