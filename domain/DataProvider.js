@@ -38,11 +38,7 @@ var link = new Link({label:"About", URL:"about", order: 1});
 console.log(link.label);
 link.save();
 
-/*
-Link.findAll(function(err, links){
-	if(!err) console.log(links);
-});
-*/
+
 Link.find(function(err, links){
 	if(!err) console.log(links);
 });
