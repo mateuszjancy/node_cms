@@ -44,7 +44,7 @@ app.get('/', routes.index);
 
 //HTML Partials reguests
 app.get('/links', data.links);
-app.get('/page/:url', data.page);
+app.get('/page', data.page);
 
 //JSON data requests
 

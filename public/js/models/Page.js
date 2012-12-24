@@ -1,15 +1,16 @@
 var app = app || {};
 
-app.Page = Backbone.Model.extend({  
-    initialize: function(){  
-        console.log("->page initialize");  
-    },  
+app.CmsPage = Backbone.Model.extend({  
     defaults: {  
-      	URL:"", 
+      	pageUrl:"", 
 		h1: "",
 		p: "",
 		img: "",
 		order: 0,
 		large: false
-    }  
+    },
+
+    url: function() {
+    	return '/page/'+this.pageUrl;
+  	}
 });

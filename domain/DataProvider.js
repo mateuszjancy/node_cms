@@ -4,8 +4,8 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 
-var Page = new Schema({
-  URL: String,
+var CmsPage = new Schema({
+  pageUrl: String,
   h1:String,
   p:String,
   img:String,
@@ -13,38 +13,38 @@ var Page = new Schema({
   large: Boolean
 });
 
-var Link = new Schema({
+var CmsLink = new Schema({
 		label:String, 
-		URL: String,
+		pageUrl: String,
 		order: Number
 });
 
-Link.statics.findAll = function (callback) {
+CmsLink.statics.findAll = function (callback) {
   return this.find(callback);
 }
 
-Page.statics.findByUrl = function (url, callback) {
-  return this.find({ URL: url}, callback);
+CmsPage.statics.findByUrl = function (pageUrl, callback) {
+  return this.find({ pageUrl: pageUrl}, callback);
 }
 
-var Link = mongoose.model("Link", Link);
-var Page = mongoose.model("Page", Page);
+var CmsLink = mongoose.model("CmsLink", CmsLink);
+var CmsPage = mongoose.model("CmsPage", CmsPage);
 
 //Connection
 mongoose.connect('mongodb://localhost/my_database');
 
 //UseCase
-var link = new Link({label:"About", URL:"about", order: 1});
+var link = new CmsLink({label:"Contact", pageUrl:"contact", order: 1});
 console.log(link.label);
 link.save();
 
 
-Link.find(function(err, links){
+CmsLink.find(function(err, links){
 	if(!err) console.log(links);
 });
 
-var page = new Page({URL:"about", h1:"test h1"});
+var page = new CmsPage({pageUrl:"contact", h1:"test contact h1", p:"test contact p"});
 page.save();
-Page.findByUrl(link.URL, function(err, pages){
+CmsPage.findByUrl(link.pageUrl, function(err, pages){
 	if(!err) console.log(pages);
 });

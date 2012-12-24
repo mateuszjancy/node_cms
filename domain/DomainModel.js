@@ -2,8 +2,8 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 
-var Page = new Schema({
-  URL: String,
+var CmsPage = new Schema({
+  pageUrl: String,
   h1:String,
   p:String,
   img:String,
@@ -11,19 +11,19 @@ var Page = new Schema({
   large: Boolean
 });
 
-var Link = new Schema({
+var CmsLink = new Schema({
 		label:String, 
-		URL: String,
+		pageUrl: String,
 		order: Number
 });
 
-Link.statics.findAll = function (callback) {
+CmsLink.statics.findAll = function (callback) {
   return this.find(callback);
 }
 
-Page.statics.findByUrl = function (url, callback) {
-  return this.find({ URL: url}, callback);
+CmsPage.statics.findByPageUrl = function (pageUrl, callback) {
+  return this.find({ pageUrl: pageUrl}, callback);
 }
 
-exports.Link = mongoose.model("Link", Link);
-exports.Page = mongoose.model("Page", Page);
+exports.CmsLink = mongoose.model("CmsLink", CmsLink);
+exports.CmsPage = mongoose.model("CmsPage", CmsPage);

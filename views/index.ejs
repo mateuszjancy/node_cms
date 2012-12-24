@@ -7,27 +7,22 @@
   <link rel="stylesheet" href="assets/base.css">
 </head>
 <body>
-  <script type="text/template" id="manu-item-template">
-    <div class="nav-collapse collapse">
-        <ul class="nav">
-        	<li class="active"><a href= {{URL}} > {{label}} </a></li>
-        </ul>
-    </div>
-  </script>  
-  <div id="page">
-    <div class="jumbotron">
-		<h1></h1>
-		<p class="lead"></p>
-	</div>
-  </div>
+  
+  <script type="text/template" id="menu-item-template">
+  	    	<a href="#page/{{pageUrl}}" > {{label}} </a>
+  </script>
 
-  <section id="content-main">
-  	<div class="nav-collapse collapse">
-        <ul class="nav">
-        	<li class="active"><a href= {{URL}} > {{label}} </a></li>
-        </ul>
-    </div>
-  </section>
+  <script type="text/template" id="page-template">
+          <h1>{{h1}}</h1>
+          <p>{{p}}</p>
+  </script>
+
+  <div class="nav-collapse collapse" id="menu-container">
+  </div>
+  
+  <div id="page-container">
+    
+  </div>
 
   <script src="js/lib/jquery.js"></script>
   <script src="js/lib/underscore.js"></script>
@@ -38,8 +33,11 @@
   <script src="js/collections/Link.js"></script>
   <script src="js/collections/Page.js"></script>
   <script src="js/views/Link.js"></script>
+  <script src="js/views/LinkList.js"></script>
+  
   <script src="js/views/Page.js"></script>
+  <script src="js/views/PageList.js"></script>
   <script src="js/routers/router.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/app.js"></script>  
 </body>
 </html>

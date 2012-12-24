@@ -1,12 +1,9 @@
 var app = app || {};
 
-app.Link = Backbone.Model.extend({  
-    initialize: function(){  
-        console.log("->link initialize");  
-    },  
-    defaults: {  
+app.CmsLink = Backbone.Model.extend({  
+	defaults: {  
       	label:"", 
-		URL: "",
+		pageUrl: "",
 		order: 0
     }  
 }); 
