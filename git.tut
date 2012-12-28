@@ -1,2 +1,6 @@
 http://jakilinux.org/administracja/git-tutorial-czesc-1-wstep/
 http://www.vogella.com/articles/Git/article.html
+
+git add -A
+git commit -m "comment"
+git push git@github.com:mateuszjancy/node_cms.git master

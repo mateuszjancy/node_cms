@@ -1,31 +1,75 @@
 //http://stackoverflow.com/questions/6262444/get-collection-id-in-backbone-without-loading-the-entire-collection
 //http://coenraets.org/blog/2011/12/backbone-js-wine-cellar-tutorial-part-1-getting-started/
 var app = app || {};
+var PAGE_URL = "";
 
 app.AppRouter = Backbone.Router.extend({
 	routes: {
 		"":"list",
-		"page/:id":"pageDetails",
-		"create/page":"createPage"
+		"pageByUrl/:id":"pageByUrlDetails",
+		"create/page":"createPage",
+		//"edit/page/:id": "editPage",
+		"remove/page/:id": "removePage"
 	},
 
 	list: function(){
 		app.linkListView  = new app.LinkListView({model: app.cmsLinkCollection});
-		app.cmsLinkCollection.fetch();
+		app.cmsLinkCollection.fetch({
+			success: function(){
+				if(app.cmsLinkCollection.models.length>0){
+					PAGE_URL = app.cmsLinkCollection.models[0].get('pageUrl');
 
+					app.cmsPageListView  = new app.CmsPageListView({model: app.cmsPageCollection});
+					app.cmsPageCollection.reset();
+					app.cmsPageCollection.fetch({data: { pageUrl:PAGE_URL}, url: 'pageByUrl'});
+
+					$('#page-container').html(app.cmsPageListView.render().el);
+				}
+			}
+		});
+
+		$('#edit-page-container').html("");
 		$("#menu-container").html(app.linkListView.render().el);
 	},
 
-	pageDetails: function(pUrl){
-		app.cmsPageListView  = new app.CmsPageListView({model: app.cmsPageCollection});
+	//z 8/36 a
+	pageByUrlDetails: function(pUrl){
+//		app.cmsPageListView  = new app.CmsPageListView({model: app.cmsPageCollection});
 		app.cmsPageCollection.reset();
-		//TODO: cannot find good way for REST
-		app.cmsPageCollection.fetch({data: { id:pUrl } });
+		PAGE_URL = pUrl;
+		app.cmsPageCollection.fetch({data: { pageUrl:PAGE_URL }, url: 'pageByUrl'});
 
+		//$('#edit-page-container').html("");
 		$('#page-container').html(app.cmsPageListView.render().el);
-	}
+	},
 
 	createPage: function(){
+		app.cmsPageCollection.add(new app.CmsPage({h1:"new article", pageUrl: PAGE_URL}));
+	},
 
-	}
+	//------------------------------------------------------------------
+	//TODO: example howto flush model from server
+	editPage_old: function(id, pUrl){
+		var pageModel = new app.CmsPage({_id: id, editMode:true});
+		
+		var editPage = new app.CmsPageView({
+			model: pageModel, 
+			currentPageUrl: PAGE_URL
+		});
+
+		pageModel.fetch({
+			success: function(model, resp, options){
+				//editPage.render();
+				$('#page-container').html(editPage.render().el);
+			}
+		});
+	},
+
+
+	editPage: function(id, pUrl){
+		var pageModel = app.cmsPageCollection.get(id);
+		
+		var editPage = new app.CmsPageView({model: pageModel});
+		editPage.setEdit();
+	},
 });

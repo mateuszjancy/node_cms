@@ -2,15 +2,16 @@ var app = app || {};
 
 app.CmsPage = Backbone.Model.extend({  
     defaults: {  
-      	pageUrl:"", 
-		h1: "",
-		p: "",
-		img: "",
-		order: 0,
-		large: false
+      pageUrl:"", 
+		  h1: "",
+		  p: "",
+		  img: "",
+		  order: 0,
+		  large: false,
+      _id: -1,
+      editMode: false
     },
 
-    url: function() {
-    	return '/page/'+this.pageUrl;
-  	}
+    idAttribute: '_id',
+    urlRoot: '/page'
 });

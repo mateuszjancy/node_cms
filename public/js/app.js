@@ -5,6 +5,9 @@ $(function() {
     _.templateSettings.interpolate = /\{\{(.+?)\}\}/g;
     app.cmsLinkCollection = new app.CmsLinkCollection();
     app.cmsPageCollection = new app.CmsPageCollection();
+
+    app.cmsPageListView  = new app.CmsPageListView({model: app.cmsPageCollection});
+    
 	var appRouter = new app.AppRouter();
 	Backbone.history.start();
 });
