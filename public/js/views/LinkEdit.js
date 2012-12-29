@@ -10,15 +10,11 @@ app.CmsLinkEditView= Backbone.View.extend({
   },
 
   fieldChanged: function(e){
-
     var field = $(e.currentTarget);
     var data = {};
     data[field.attr('id')] = field.val();
-    console.log("->[fieldChanged] data ", data);
     this.model.set(data);
     this.model.save();
-    //this.render();
-    console.log("->[fieldChanged] this.model ", this.model);
   },
 
   initialize: function() {

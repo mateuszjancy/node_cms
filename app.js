@@ -22,7 +22,9 @@ app.configure(function(){
   //app.set("view options", {layout: false});
   app.use(express.favicon());
   app.use(express.logger('dev'));
-  app.use(express.bodyParser());
+  app.use(express.bodyParser({
+    uploadDir:'./upload'
+  }));
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
   app.use(express.session());
@@ -52,6 +54,12 @@ app.delete('/page/:_id', data.deletePage);
 //links
 app.put('/link/:_id', data.saveLink);
 app.delete('/link/:_id', data.deleteLink);
+
+//Image
+app.post('/updaload/image', data.saveImage);
+app.get('/images', data.images);
+app.post('/image/:_id', data.image);
+app.delete('/image/:_id', data.deleteImage);
 
 //JSON data requests
 

@@ -15,52 +15,71 @@
 </head>
 <body>
 
+  <script type="text/template" id="image-template">
+    <p class="muted">{{name}}</p>
+    <a href="#remove/image/{{_id}}" class="remove-page icon-remove"></a>
+    <div  class="pagination-centered">
+      <img src="{{imagePath}}" alt="{{name}}" class="img-rounded"/>
+    </div>
+    <hr/>
+  </script>
+
   <script type="text/template" id="edit-menu-item-template">
-    <input type="text" id="label" name="label" value="{{label}}"/>
-    <a href="#remove/menu/{{_id}}" class="remove-page icon-remove"></a>
+    <div class="form-horizontal">
+      <input type="text" id="label" name="label" value="{{label}}"/>
+      <input type="text" id="order" name="order" value="{{order}}"/>
+      <a href="#remove/menu/{{_id}}" class="remove-page icon-remove"></a>
+    </div>
   </script>
 
   <script type="text/template" id="menu-item-template">
     <a href="#pageByUrl/{{pageUrl}}" > {{label}} </a>
   </script>
 
-  <script type="text/template" id="page-template">
-    <div id="read-only-page-{{_id}}" class="jumbotron">
-      <h1>{{h1}}</h1>
-      <p class="lead">{{p}}</p>
-      <a href="#edit/page/{{_id}}" class="edit-page icon-edit"></a>
-      <a href="#remove/page/{{_id}}" class="remove-page icon-remove"></a>
-    </div>
-    <div id="edit-page-{{_id}}"  style="display: none">
+  <script type="text/template" id="edit-page-template">
+    <div class="form-horizontal">
       <div class="control-group">
-        <label for="h1" class="control-label">H1</label>
+        <label for="h1" class="control-label">Big content</label>
         <div class="controls">
-          <input type="text" id="h1" name="h1" value="{{h1}}" class="span7"/>
+          <input type="text" id="h1" name="h1" value="{{h1}}" class="input-large"/>
         </div>
       </div>
 
       <div class="control-group">
-        <label for="p" class="control-label">p</label>
+        <label for="p" class="control-label">Smal content</label>
         <div class="controls">
           <input type="text" id="p" name="p" value="{{p}}"/>
         </div>
       </div>
 
       <div class="control-group">
-        <label for="p" class="control-label">p</label>
+        <label for="order" class="control-label">Order</label>
         <div class="controls">
-          <input type="checkbox" name="large" value="{{large}}" />
+          <input type="text" id="order" name="order" value="{{order}}"/>
         </div>
       </div>
 
-
-
+      <div class="control-group">
+        <label for="p" class="control-label">Large</label>
+        <div class="controls">
+          <input type="checkbox" name="large" id="large" value="{{large}}" {{ (large===true)? 'checked="checked"': '' }}/>
+        </div>
+      </div>
       <input type="hidden" id="pageUrl" name="pageUrl" value="{{pageUrl}}"/>
-      <button class="save-page-button btn btn-primary" name="save-page">Save</button>
-      <button class="cancel-page-button btn" name="cancel-page">Cancel</button>
+    </div>
+  </script>
+
+  <script type="text/template" id="page-template">
+    <div id="read-only-page-{{_id}}" {{ (large===true)? 'class="jumbotron"':''}}>
+      <h1>{{h1}}</h1>
+      <p class="lead">{{p}}</p>
+      <a href="#manage/page/{{_id}}" class="edit-page icon-edit"></a>
+      <a href="#remove/page/{{_id}}" class="remove-page icon-remove"></a>
     </div>
     <hr>
   </script>
+
+ 
 
   <div class="container-narrow">
     
@@ -79,21 +98,41 @@
       </div>
     </div>
    
-
     
     <div id="add-page-container"></div>  
-    <div id="page-container"></div>
+    <div id="page-container" class="page-container"></div>
+
+    <div id="page-managemant" 
+        class="modal hide fade" 
+        tabindex="-1" 
+        role="dialog" 
+        aria-labelledby="page-modal-header-label" 
+        aria-hidden="true"
+      >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="page-modal-header-label">Page management</h3>
+      </div>
+      <div class="modal-body">
+        <p>Links</p>
+        <div id="page-management-container"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary"data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+  </div>
 
     <div id="menu-managemant" 
         class="modal hide fade" 
         tabindex="-1" 
         role="dialog" 
-        aria-labelledby="modal-header-label" 
+        aria-labelledby="menu-modal-header-label" 
         aria-hidden="true"
       >
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="modal-header-label">Link management</h3>
+        <h3 id="menu-modal-header-label">Link management</h3>
       </div>
       <div class="modal-body">
         <p>Links</p>
@@ -105,15 +144,41 @@
       </div>
     </div>
   </div>
+  <!-- File uploader -->
+  <div id="image-managemant" 
+    class="modal hide fade" 
+    tabindex="-1" 
+    role="dialog" 
+    aria-labelledby="image-modal-header-label" 
+    aria-hidden="true"
+    >
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="image-modal-header-label">Link management</h3>
+    </div>
+    <div class="modal-body">
+      <p>Links</p>
+      <div>
+        <form id="image-management-container-form" action="/updaload/image" method="POST" enctype="multipart/form-data">
+          <input type="file" name="customImage"/>
+        </form>
+        <div id="image-management-container"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn"data-dismiss="modal" aria-hidden="true">Close</button>
+      <button class="btn btn-primary" id="image-management-container-send">Send</button>
+    </div>
+  </div>
+  
 
   <!-- Admin panel-->
   <div class="navbar navbar-fixed-bottom" id="admin-page">
     <a href="#create/page">Create page</a>
      |
-    <!--
-    <a href="#create/link">Create link</a>
-    -->
     <a href="#manage/menu" role="button" data-toggle="modal">Link management</a>
+     |
+    <a href="#manage/image" role="button" data-toggle="modal">Image management</a>
   </div>
 
   
@@ -121,12 +186,15 @@
   <script src="js/lib/underscore.js"></script>
   <script src="js/lib/backbone.js"></script>
   <script src="js/lib/bootstrap.js"></script>
+  <script src="js/lib/jquery.iframe-transport.js"></script>
   
   <script src="js/models/Link.js"></script>
   <script src="js/models/Page.js"></script>
-  
+  <script src="js/models/Image.js"></script>
+
   <script src="js/collections/Link.js"></script>
   <script src="js/collections/Page.js"></script>
+  <script src="js/collections/Image.js"></script>
 
   <script src="js/views/Link.js"></script>
   <script src="js/views/LinkEdit.js"></script>
@@ -134,7 +202,11 @@
   <script src="js/views/LinkListEdit.js"></script>
   
   <script src="js/views/Page.js"></script>
+  <script src="js/views/PageEdit.js"></script>
   <script src="js/views/PageList.js"></script>
+
+  <script src="js/views/Image.js"></script>
+  <script src="js/views/ImageList.js"></script>
   
   <script src="js/routers/router.js"></script>
   

@@ -5,30 +5,13 @@ app.CmsPageListView= Backbone.View.extend({
   className: "page-container",  
 
   initialize: function() {
-    this.model.bind("reset", this.pageListReset, this);
-   	this.model.bind("remove", this.removePage, this);
-    this.model.bind("add", this.addPage, this);
-  },
-
-  addPage: function(){
-    console.log("->Add page");
-    $(this.el).html("");
-    this.render();
-  },
-
-  removePage: function(){
-    console.log("->remove");
-    $(this.el).html("");
-    this.render();
-  },
-
-  pageListReset: function(){
-    console.log("->pageListReset");
-    $(this.el).html("");
-    this.render();
+    this.model.bind("reset", this.render, this);
+    this.model.bind("remove", this.render, this);
+    this.model.bind("add", this.render, this);
   },
   
   render: function() {
+    $(this.el).html("");
     _.each(this.model.models, function (page) {
       $(this.el).append(new app.CmsPageView({model:page}).render().el);
     }, this);

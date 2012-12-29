@@ -9,13 +9,15 @@ app.AppRouter = Backbone.Router.extend({
 		"main": "main", 
 		"pageByUrl/:id":"pageByUrlDetails",
 		"create/page":"createPage",
-		//"create/link":"createLink",
-		//"edit/page/:id": "editPage",
+		"manage/page/:id": "managePage",
 		"remove/page/:id": "removePage",
 		//Links
 		"manage/menu":"manageMenu",
 		"add/menu": "addMenu",
-		"remove/menu/:id": "removeMenu"
+		"remove/menu/:id": "removeMenu",
+		//Image
+		"manage/image": "manageImage",
+		"remove/image/:id": "removeImage",
 
 	},
 
@@ -71,6 +73,48 @@ app.AppRouter = Backbone.Router.extend({
 		app.cmsLinkCollection.remove(id);
 	 	linkModel.destroy();
 	},
+
+	managePage: function(id){
+		var pageModel = app.cmsPageCollection.get(id);
+		var pageView = new app.CmsPageEditView({model: pageModel});
+		$("#page-management-container").html(pageView.render().el);
+		$('#page-managemant').modal();
+		this.navigate("#main", {trigger: false, replace: true});
+	},
+
+	removePage: function(id){
+		var pageModel = app.cmsPageCollection.get(id);
+		app.cmsPageCollection.remove(id);
+		pageModel.destroy();
+	},
+
+	removeImage: function(id){
+		console.log("->app.cmsImageCollection ", app.cmsImageCollection);
+		var imageModel = app.cmsImageCollection.get(id);
+		console.log("->imageModel ", imageModel);
+		app.cmsImageCollection.remove(id);
+		imageModel.destroy();
+	},
+
+	manageImage: function(){
+		app.cmsImageCollection.fetch();
+		$("#image-management-container").html(app.imageListView.render().el);
+
+		$('#image-managemant').modal();
+		$("#image-management-container-send").on("click", function() {
+			console.log("-> image-management-container-send click");
+			var form = $("#image-management-container-form");
+    		$.ajax('/updaload/image', {
+        		files: form.find(":file"),
+        		iframe: true
+    		}).complete(function(data) {
+        		form.find(":file").val("");
+        		var response = jQuery.parseJSON(data.responseText);
+        		app.cmsImageCollection.add(new app.CmsImage(response));
+    		});
+		});
+		this.navigate("#main", {trigger: false, replace: true});
+	},
 	/*
 	createLink: function(){
 		app.cmsLinkCollection.add(new app.CmsLink({label: "new link"}));
@@ -96,10 +140,5 @@ app.AppRouter = Backbone.Router.extend({
 	},
 
 
-	editPage: function(id, pUrl){
-		var pageModel = app.cmsPageCollection.get(id);
-		
-		var editPage = new app.CmsPageView({model: pageModel});
-		editPage.setEdit();
-	},
+	
 });

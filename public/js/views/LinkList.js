@@ -5,30 +5,13 @@ app.LinkListView = Backbone.View.extend({
   className: "nav",
   
   initialize: function() {
-    this.model.bind("reset", this.resetLink, this);
-    this.model.bind("remove", this.removeLink, this);
-    this.model.bind("add", this.renderAdd, this);
-  },
-
-  renderAdd: function(){
-    console.log("-> renderAdd");
-    $(this.el).html("");
-    this.render();
-  },
-
-  removeLink: function(){
-    console.log("-> removeLink");
-    $(this.el).html("");
-    this.render();
-  },
-
-  resetLink: function(){
-    console.log("-> resetLink");
-    $(this.el).html("");
-    this.render();
+    this.model.bind("reset", this.render, this);
+    this.model.bind("remove", this.render, this);
+    this.model.bind("add", this.render, this);
   },
 
   render: function() {    
+    $(this.el).html("");
     _.each(this.model.models, function (link) {
       $(this.el).append(new app.CmsLinkView({model:link}).render().el);
     }, this);
