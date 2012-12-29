@@ -62,8 +62,22 @@ exports.saveLink = function(req, res){
 };
 
 exports.deleteLink = function(req, res){
-	model.CmsLink.remove({_id: req.params._id}, function(err){
-		if(!err) res.send("ok");
-	});
+	model.CmsLink.findOne({_id: req.params._id}, function(linkErr, linkToRemove){
+  		if(!linkErr){
+  			console.log("-> linkToRemove ", linkToRemove);
+  			model.CmsPage.findByPageUrl(linkToRemove.pageUrl.toLowerCase(), function(pageErr, pages){
+  				if(!pageErr) {
+  					var page = {};
+  					for(var i = 0; i < pages.length;i++){
+  						page = pages[i];
+  						page.pageUrl = "about";
+  						page.save();
+  					}
+
+  					linkToRemove.remove();
+  				}
+  			});
+  		}
+  	});
 }
 

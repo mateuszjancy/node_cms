@@ -6,11 +6,21 @@ var PAGE_URL = "";
 app.AppRouter = Backbone.Router.extend({
 	routes: {
 		"":"list",
+		"main": "main", 
 		"pageByUrl/:id":"pageByUrlDetails",
 		"create/page":"createPage",
-		"create/link":"createLink",
+		//"create/link":"createLink",
 		//"edit/page/:id": "editPage",
-		"remove/page/:id": "removePage"
+		"remove/page/:id": "removePage",
+		//Links
+		"manage/menu":"manageMenu",
+		"add/menu": "addMenu",
+		"remove/menu/:id": "removeMenu"
+
+	},
+
+	main: function(){
+
 	},
 
 	list: function(){
@@ -44,9 +54,28 @@ app.AppRouter = Backbone.Router.extend({
 		app.cmsPageCollection.add(new app.CmsPage({h1:"new article", pageUrl: PAGE_URL}));
 	},
 
+	manageMenu: function(){
+		console.log("->manageMenu");
+		$("#menu-management-container").html(app.linkListEditView.render().el);
+		$('#menu-managemant').modal();
+		this.navigate("#main", {trigger: false, replace: true});
+	},
+
+	addMenu: function(){
+		app.cmsLinkCollection.add(new app.CmsLink({label: "new link"}));
+		this.navigate("#main", {trigger: false, replace: true});
+	},
+
+	removeMenu: function(id){
+		var linkModel = app.cmsLinkCollection.get(id)	
+		app.cmsLinkCollection.remove(id);
+	 	linkModel.destroy();
+	},
+	/*
 	createLink: function(){
 		app.cmsLinkCollection.add(new app.CmsLink({label: "new link"}));
 	},
+	*/
 
 	//------------------------------------------------------------------
 	//TODO: example howto flush model from server

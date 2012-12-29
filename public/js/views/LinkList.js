@@ -6,6 +6,7 @@ app.LinkListView = Backbone.View.extend({
   
   initialize: function() {
     this.model.bind("reset", this.resetLink, this);
+    this.model.bind("remove", this.removeLink, this);
     this.model.bind("add", this.renderAdd, this);
   },
 
@@ -15,6 +16,11 @@ app.LinkListView = Backbone.View.extend({
     this.render();
   },
 
+  removeLink: function(){
+    console.log("-> removeLink");
+    $(this.el).html("");
+    this.render();
+  },
 
   resetLink: function(){
     console.log("-> resetLink");

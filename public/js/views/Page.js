@@ -21,8 +21,8 @@ app.CmsPageView= Backbone.View.extend({
   },
 
   removePage: function(){
-	app.cmsPageCollection.remove(this.model.id);
-	this.model.destroy();
+	 app.cmsPageCollection.remove(this.model.id);
+	 this.model.destroy();
   },
 
   editPage: function(){

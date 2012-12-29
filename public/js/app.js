@@ -7,6 +7,8 @@ $(function() {
     app.cmsPageCollection = new app.CmsPageCollection();
 
 	app.linkListView  = new app.LinkListView({model: app.cmsLinkCollection});
+	app.linkListEditView  = new app.LinkListEditView({model: app.cmsLinkCollection});
+
     app.cmsPageListView  = new app.CmsPageListView({model: app.cmsPageCollection});
     
 	var appRouter = new app.AppRouter();

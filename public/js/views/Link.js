@@ -7,37 +7,13 @@ app.CmsLinkView= Backbone.View.extend({
   
   template: $('#menu-item-template').html(),
 
-   events: {
-    "click button.save-link-button": "saveLink",
-    "click button.cancel-link-button": "cancelLink",
-    "click a.edit-link": "editLink"
+  initialize: function() {
+    this.model.bind("change", this.modelChange, this);
   },
 
-  cancelLink: function(){
-  	console.log("-> cancel link");
-  },
-
-  saveLink: function(){
-  	console.log("->save link");
-  	this.model.set({label:this.$('input#label').val()});
-  	this.model.save();
-
-  	//this.render();
-  	this.readOnlyLink();
-  },
-
-  editLink: function(){
-  	console.log("->edit link");
-  	
-  	$('#read-only-link-'+this.model.get('_id')).slideUp('slow');
-  	$('#edit-link-'+this.model.get('_id')).slideDown('slow');
-  },
-
-  readOnlyLink: function(){
-  	console.log("->read only link");
-
-  	$('#read-only-link-'+this.model.get('_id')).fadeIn('fast');
-  	$('#edit-link-'+this.model.get('_id')).fadeOut('slow');	
+  modelChange: function(){
+    console.log("->modelChange");
+    this.render();
   },
 
   render: function() {
