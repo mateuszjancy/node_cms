@@ -29,8 +29,8 @@ app.CmsPageListView= Backbone.View.extend({
   },
   
   render: function() {
-    _.each(this.model.models, function (link) {
-      $(this.el).append(new app.CmsPageView({model:link}).render().el);
+    _.each(this.model.models, function (page) {
+      $(this.el).append(new app.CmsPageView({model:page}).render().el);
     }, this);
     return this;
   }

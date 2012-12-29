@@ -8,8 +8,7 @@ app.CmsPage = Backbone.Model.extend({
 		  img: "",
 		  order: 0,
 		  large: false,
-      _id: -1,
-      editMode: false
+      _id: -1
     },
 
     idAttribute: '_id',

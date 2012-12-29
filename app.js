@@ -45,9 +45,14 @@ app.get('/', routes.index);
 //HTML Partials reguests
 app.get('/links', data.links);
 app.get('/pageByUrl', data.pageByUrl);
-app.get('/page/:_id', data.page);
-app.put('/page/:_id', data.savePage)
-app.delete('/page/:_id', data.deletePage)
+//app.get('/page/:_id', data.page);
+app.put('/page/:_id', data.savePage);
+app.delete('/page/:_id', data.deletePage);
+
+//links
+app.put('/link/:_id', data.saveLink);
+app.delete('/link/:_id', data.deleteLink);
+
 //JSON data requests
 
 http.createServer(app).listen(app.get('port'), function(){

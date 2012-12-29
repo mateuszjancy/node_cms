@@ -8,17 +8,16 @@ app.AppRouter = Backbone.Router.extend({
 		"":"list",
 		"pageByUrl/:id":"pageByUrlDetails",
 		"create/page":"createPage",
+		"create/link":"createLink",
 		//"edit/page/:id": "editPage",
 		"remove/page/:id": "removePage"
 	},
 
 	list: function(){
-		app.linkListView  = new app.LinkListView({model: app.cmsLinkCollection});
 		app.cmsLinkCollection.fetch({
 			success: function(){
 				if(app.cmsLinkCollection.models.length>0){
 					PAGE_URL = app.cmsLinkCollection.models[0].get('pageUrl');
-
 					app.cmsPageListView  = new app.CmsPageListView({model: app.cmsPageCollection});
 					app.cmsPageCollection.reset();
 					app.cmsPageCollection.fetch({data: { pageUrl:PAGE_URL}, url: 'pageByUrl'});
@@ -34,17 +33,19 @@ app.AppRouter = Backbone.Router.extend({
 
 	//z 8/36 a
 	pageByUrlDetails: function(pUrl){
-//		app.cmsPageListView  = new app.CmsPageListView({model: app.cmsPageCollection});
 		app.cmsPageCollection.reset();
 		PAGE_URL = pUrl;
 		app.cmsPageCollection.fetch({data: { pageUrl:PAGE_URL }, url: 'pageByUrl'});
 
-		//$('#edit-page-container').html("");
 		$('#page-container').html(app.cmsPageListView.render().el);
 	},
 
 	createPage: function(){
 		app.cmsPageCollection.add(new app.CmsPage({h1:"new article", pageUrl: PAGE_URL}));
+	},
+
+	createLink: function(){
+		app.cmsLinkCollection.add(new app.CmsLink({label: "new link"}));
 	},
 
 	//------------------------------------------------------------------

@@ -21,8 +21,8 @@ app.CmsPageView= Backbone.View.extend({
   },
 
   removePage: function(){
-		app.cmsPageCollection.remove(this.model.id);
-		this.model.destroy();
+	app.cmsPageCollection.remove(this.model.id);
+	this.model.destroy();
   },
 
   editPage: function(){
@@ -33,16 +33,17 @@ app.CmsPageView= Backbone.View.extend({
 
   setReadOnly: function(){
   	console.log('->this.$el ', this.$el);
-  	$(' #read-only-page-'+this.model.get('_id')).fadeIn('fast');
-  	$(' #edit-page-'+this.model.get('_id')).fadeOut('slow');
+  	$('#read-only-page-'+this.model.get('_id')).fadeIn('fast');
+  	$('#edit-page-'+this.model.get('_id')).fadeOut('slow');
   },
 
   savePage: function(e){
   	this.model.set({h1:this.$('input#h1').val()});
     this.model.set({p:this.$('input#p').val()});
   	this.model.set({pageUrl:this.$('input#pageUrl').val()});
+    this.model.set({large: this.$('input#large').val()});
 
-	console.log("savePage ", this.model);
+	  console.log("savePage ", this.model);
   	this.model.save();
 
   	this.render();
