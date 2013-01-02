@@ -2,6 +2,7 @@ var fs = require('fs');
 var model = require('../domain/DomainModel');
 
 exports.links = function(req, res){
+	console.log("-> in links");
 	model.CmsLink.findAll(function(err, links){
 		if(!err) res.send(links);
 	});

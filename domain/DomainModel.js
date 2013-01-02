@@ -1,6 +1,11 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
+var CmsUser = new Schema({
+  username: String, 
+  password: String, 
+  mail: String
+});
 
 var CmsPage = new Schema({
   pageUrl: String,
@@ -33,3 +38,4 @@ CmsPage.statics.findByPageUrl = function (pageUrl, callback) {
 exports.CmsLink = mongoose.model("CmsLink", CmsLink);
 exports.CmsPage = mongoose.model("CmsPage", CmsPage);
 exports.CmsImage = mongoose.model("CmsImage", CmsImage);
+exports.CmsUser = mongoose.model("CmsUser", CmsUser);
