@@ -15,66 +15,74 @@
 </head>
 <body>
 
+  <% if(isAuthenticated){ %>
   <script type="text/template" id="image-template">
-    <p class="muted">{{name}}</p>
-    <a href="#remove/image/{{_id}}" class="remove-page icon-remove"></a>
+    <p class="muted">{{=name}}</p>
+    <a href="#remove/image/{{=_id}}" class="remove-page icon-remove"></a>
     <div  class="pagination-centered">
-      <img src="{{imagePath}}" alt="{{name}}" class="img-rounded"/>
+      <img src="{{=imagePath}}" alt="{{=name}}" class="img-rounded"/>
     </div>
     <hr/>
   </script>
+  <% } %>
 
+  <% if(isAuthenticated){ %>
   <script type="text/template" id="edit-menu-item-template">
     <div class="form-horizontal">
-      <input type="text" id="label" name="label" value="{{label}}"/>
-      <input type="text" id="order" name="order" value="{{order}}"/>
-      <a href="#remove/menu/{{_id}}" class="remove-page icon-remove"></a>
+      <input type="text" id="label" name="label" value="{{=label}}"/>
+      <input type="text" id="order" name="order" value="{{=order}}"/>
+      <a href="#remove/menu/{{=_id}}" class="remove-page icon-remove"></a>
     </div>
   </script>
+  <% } %>
 
   <script type="text/template" id="menu-item-template">
-    <a href="#pageByUrl/{{pageUrl}}" > {{label}} </a>
+    <a href="#pageByUrl/{{=pageUrl}}" > {{=label}} </a>
   </script>
 
+  <% if(isAuthenticated){ %>
   <script type="text/template" id="edit-page-template">
     <div class="form-horizontal">
       <div class="control-group">
         <label for="h1" class="control-label">Big content</label>
         <div class="controls">
-          <input type="text" id="h1" name="h1" value="{{h1}}" class="input-large"/>
+          <input type="text" id="h1" name="h1" value="{{=h1}}" class="input-large"/>
         </div>
       </div>
 
       <div class="control-group">
         <label for="p" class="control-label">Smal content</label>
         <div class="controls">
-          <input type="text" id="p" name="p" value="{{p}}"/>
+          <input type="text" id="p" name="p" value="{{=p}}"/>
         </div>
       </div>
 
       <div class="control-group">
         <label for="order" class="control-label">Order</label>
         <div class="controls">
-          <input type="text" id="order" name="order" value="{{order}}"/>
+          <input type="text" id="order" name="order" value="{{=order}}"/>
         </div>
       </div>
 
       <div class="control-group">
         <label for="p" class="control-label">Large</label>
         <div class="controls">
-          <input type="checkbox" name="large" id="large" value="{{large}}" {{ (large===true)? 'checked="checked"': '' }}/>
+          <input type="checkbox" name="large" id="large" value="{{=large}}" {{= (large===true)? 'checked="checked"': '' }}/>
         </div>
       </div>
-      <input type="hidden" id="pageUrl" name="pageUrl" value="{{pageUrl}}"/>
+      <input type="hidden" id="pageUrl" name="pageUrl" value="{{=pageUrl}}"/>
     </div>
   </script>
+  <% } %>
 
   <script type="text/template" id="page-template">
-    <div id="read-only-page-{{_id}}" {{ (large===true)? 'class="jumbotron"':''}}>
-      <h1>{{h1}}</h1>
-      <p class="lead">{{p}}</p>
-      <a href="#manage/page/{{_id}}" class="edit-page icon-edit"></a>
-      <a href="#remove/page/{{_id}}" class="remove-page icon-remove"></a>
+    <div id="read-only-page-{{=_id}}" {{= (large===true)? 'class="jumbotron"':''}}>
+      <h1>{{=h1}}</h1>
+      <p class="lead">{{=p}}</p>
+      <% if(isAuthenticated){ %>
+      <a href="#manage/page/{{=_id}}" class="edit-page icon-edit"></a>
+      <a href="#remove/page/{{=_id}}" class="remove-page icon-remove"></a>
+      <% } %>
     </div>
     <hr>
   </script>
@@ -174,11 +182,17 @@
 
   <!-- Admin panel-->
   <div class="navbar navbar-fixed-bottom" id="admin-page">
+    <% if(isAuthenticated){ %>
+    <a href="/logout">Logout</a>
+     |
     <a href="#create/page">Create page</a>
      |
     <a href="#manage/menu" role="button" data-toggle="modal">Link management</a>
      |
     <a href="#manage/image" role="button" data-toggle="modal">Image management</a>
+    <% }else{ %>
+    <a href="/login">Login</a>
+    <% } %>
   </div>
 
   

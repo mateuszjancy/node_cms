@@ -117,7 +117,12 @@ http.createServer(app).listen(app.get('port'), function(){
 });
 
 function ensureAuthenticated(req, res, next) {
-  console.log("-> ensureAuthenticated", req);
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login')
+  console.log("-> ensureAuthenticated", req.isAuthenticated());
+  if (req.isAuthenticated()) { 
+    return next(); 
+  }
+  //res.method = 'get'; 
+  res.send({
+    redirect:'/login'
+  });
 }
