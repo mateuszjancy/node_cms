@@ -17,7 +17,9 @@ app.CmsPageView= Backbone.View.extend({
   render: function() {
     console.log("->page view " , this.model);
     var templ = _.template(this.template);
-    this.$el.html(templ(this.model.toJSON()));
+    this.$el.html(templ({
+      page: this.model.toJSON(),
+    }));
     return this;
   }
 

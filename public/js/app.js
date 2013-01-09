@@ -5,8 +5,8 @@ $(function() {
     //_.templateSettings.interpolate = /\{\{(.+?)\}\}/g;
 
     _.templateSettings = {
-        interpolate: /\{\{=(.+?)\}\}/g,
-        evaluate: /\{\{(.+?)\}\}/g
+        evaluate: /\{\{(.+?)\}\}/g,
+        interpolate: /\{\{=(.+?)\}\}/g
     };
 
     app.cmsLinkCollection = new app.CmsLinkCollection();

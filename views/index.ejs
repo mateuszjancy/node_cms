@@ -46,42 +46,103 @@
       <div class="control-group">
         <label for="h1" class="control-label">Big content</label>
         <div class="controls">
-          <input type="text" id="h1" name="h1" value="{{=h1}}" class="input-large"/>
+          <input type="text" id="h1" name="h1" value="{{=page.h1}}" class="input-large"/>
         </div>
       </div>
 
       <div class="control-group">
         <label for="p" class="control-label">Smal content</label>
         <div class="controls">
-          <input type="text" id="p" name="p" value="{{=p}}"/>
+          <input type="text" id="p" name="p" value="{{=page.p}}"/>
         </div>
       </div>
 
       <div class="control-group">
         <label for="order" class="control-label">Order</label>
         <div class="controls">
-          <input type="text" id="order" name="order" value="{{=order}}"/>
+          <input type="text" id="order" name="order" value="{{=page.order}}"/>
         </div>
       </div>
 
       <div class="control-group">
         <label for="p" class="control-label">Large</label>
         <div class="controls">
-          <input type="checkbox" name="large" id="large" value="{{=large}}" {{= (large===true)? 'checked="checked"': '' }}/>
+          <input type="checkbox" name="large" id="large" value="{{=page.large}}" {{= (page.large===true)? 'checked="checked"': '' }}/>
         </div>
       </div>
-      <input type="hidden" id="pageUrl" name="pageUrl" value="{{=pageUrl}}"/>
+      <div class="control-group">
+        <label for="img" class="control-label">Image {{=images}}</label>
+        <div class="controls">
+          <select name="imagePath" id="imagePath">
+            <option value="_">No selection</option>
+            {{images.each(function(image){ }}
+                <option value="{{=image.get('imagePath')}}" {{= (image.get('imagePath') === page.imagePath)? 'selected': ''}}>{{=image.get('name')}}</option>
+            {{ }); }}
+          </select>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="p" class="control-label">Before</label>
+        <div class="controls">
+          <input type="checkbox" name="before" id="before" value="{{=page.before}}" {{= (page.before===true)? 'checked="checked"': '' }}/>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="p" class="control-label">Selected Image</label>
+        <div class="controls">
+          <img src="{{=page.imagePath}}" alt="" id="selected-imagePath" class="img-rounded"/>
+        </div>
+      </div>
+
+      <input type="hidden" id="pageUrl" name="pageUrl" value="{{=page.pageUrl}}"/>
     </div>
   </script>
   <% } %>
 
-  <script type="text/template" id="page-template">
-    <div id="read-only-page-{{=_id}}" {{= (large===true)? 'class="jumbotron"':''}}>
-      <h1>{{=h1}}</h1>
-      <p class="lead">{{=p}}</p>
+  <script type="text/template" id="contact-template">
+    <p class="lead">
+      <h1>Contact</h1>
+      <address>
+        <strong>{{= contact.companyName}}</strong><br>
+        <abbr title="git">G:</abbr> {{=contact.git}}
+        <abbr title="linked">L:</abbr> {{=contact.linked}}
+        <abbr title="stack">S:</abbr> {{=contact.stack}}
+      </address>
+   
+      <address>
+        <strong>{{= contact.dislpayName}}</strong><br>
+        <a href="mailto:#">{{contact.mail}}</a>
+      </address>
       <% if(isAuthenticated){ %>
-      <a href="#manage/page/{{=_id}}" class="edit-page icon-edit"></a>
-      <a href="#remove/page/{{=_id}}" class="remove-page icon-remove"></a>
+        <a href="#manage/page/{{contact._id}}" class="edit-page icon-edit"></a>
+      <% } %>
+    </p>
+  </script>
+
+  <script type="text/template" id="page-template">
+    <div id="read-only-page-{{=page._id}}" {{= (page.large===true)? 'class="jumbotron"':''}}>
+      <h1>
+        {{ if(page.h1.indexOf('.') !== -1) { }}
+          {{= page.h1.substring(0, page.h1.indexOf('.'))}}
+          <span class="muted">{{= page.h1.substring(page.h1.indexOf('.'))}}</span>
+        {{ }else{ }}
+          {{= page.h1}}
+        {{ } }}
+      </h1>
+      <p class="lead">
+        {{ if(page.before===true && page.imagePath !== '_') { }}
+          <img src="{{=page.imagePath}}" alt="" id="imagePath" class="img-rounded"/>
+        {{ } }}
+        {{=page.p}}
+        {{ if(page.before===false && page.imagePath !== '_') { }}
+          <img src="{{=page.imagePath}}" alt="" id="imagePath" class="img-rounded"/>
+        {{ } }}
+      </p>
+      <% if(isAuthenticated){ %>
+      <a href="#manage/page/{{=page._id}}" class="edit-page icon-edit"></a>
+      <a href="#remove/page/{{=page._id}}" class="remove-page icon-remove"></a>
       <% } %>
     </div>
     <hr>
@@ -182,7 +243,9 @@
 
   <!-- Admin panel-->
   <div class="navbar navbar-fixed-bottom" id="admin-page">
+    © MJS 2012
     <% if(isAuthenticated){ %>
+     |
     <a href="/logout">Logout</a>
      |
     <a href="#create/page">Create page</a>
@@ -191,6 +254,7 @@
      |
     <a href="#manage/image" role="button" data-toggle="modal">Image management</a>
     <% }else{ %>
+     |
     <a href="/login">Login</a>
     <% } %>
   </div>

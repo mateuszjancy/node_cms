@@ -28,7 +28,9 @@ exports.savePage = function(req, res){
 			h1:req.body.h1, 
 			p:req.body.p, 
 			large: req.body.large,
-			order: req.body.order
+			order: req.body.order,
+			imagePath: req.body.imagePath,
+			before: req.body.before
 		});
 		
 		page.save(function(err, page){
@@ -43,7 +45,9 @@ exports.savePage = function(req, res){
 				h1:req.body.h1, 
 				p:req.body.p, 
 				large: req.body.large,
-				order: req.body.order
+				order: req.body.order,
+				imagePath: req.body.imagePath,
+				before: req.body.before
 			}, 
 			function(err, page){
 				if(!err) res.send(page);
@@ -53,10 +57,48 @@ exports.savePage = function(req, res){
 };
 
 exports.deletePage = function(req, res){
-	model.CmsPage.remove({_id: req.params._id}, function(err){
-		if(!err) res.send("ok");
+	model.CmsPage.remove({_id: req.params._id});
+	res.send("ok");
+};
+
+exports.contacts = function(req, res){
+	model.CmsContact.find(function(err, contacts){
+		if(!err) req.send(contacts);
 	});
 };
+
+exports.deleteContact = function(req, res){
+	mode.CmsContact.remove({_id:req.params._id});
+	res.send("ok");
+};
+
+exports.saveContact = function(req, res){
+	if(req.params._id === '-1'){
+		var contact = new mode.CmsContact({
+			mail: req.body.mail,
+  			companyName: req.body.companyName,
+  			displayName: req.body.displayName,
+  			git: req.body.git,
+  			linked: req.body.linked,
+  			stack: req.body.stack
+		})
+
+		contact.save(function(err, savedContact){
+			if(!err) res.send(savedContact);
+		});
+	}else{
+		mode.CmsContact.findOneAndUpdate({_id:req.params._id}, {
+			mail: req.body.mail,
+  			companyName: req.body.companyName,
+  			displayName: req.body.displayName,
+  			git: req.body.git,
+  			linked: req.body.linked,
+  			stack: req.body.stack	
+		}, function(err, savedContact){
+			if(!err) res.send(savedContact);
+		})
+	}
+}
 
 exports.saveLink = function(req, res){
 	if(req.params._id === '-1'){
@@ -72,7 +114,7 @@ exports.saveLink = function(req, res){
 		});
 	}else{
 		console.log("saveLink: update");
-		var link = model.CmsLink.findOneAndUpdate({_id: req.params._id}, {
+		model.CmsLink.findOneAndUpdate({_id: req.params._id}, {
 			label:req.body.label,
 			order:req.body.order
 		}, function(err, link){
@@ -100,6 +142,8 @@ exports.deleteLink = function(req, res){
   			});
   		}
   	});
+
+  	res.send("ok");
 };
 
 exports.deleteImage = function(req, res){
@@ -119,7 +163,8 @@ exports.deleteImage = function(req, res){
 				}
 			})
 		}
-	})
+	});
+	res.send("ok");
 };
 
 exports.images = function(req, res){

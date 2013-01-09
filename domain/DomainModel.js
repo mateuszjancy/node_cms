@@ -4,7 +4,21 @@ var Schema = mongoose.Schema;
 var CmsUser = new Schema({
   username: String, 
   password: String, 
-  mail: String
+  mail: String,
+  companyName: String,
+  displayName: String,
+  git: String,
+  linked: String,
+  stack: String
+});
+
+var CmsContact = new Schema({
+  mail: String,
+  companyName: String,
+  displayName: String,
+  git: String,
+  linked: String,
+  stack: String
 });
 
 var CmsPage = new Schema({
@@ -13,7 +27,8 @@ var CmsPage = new Schema({
   p:String,
   imagePath:String,
   order: Number,
-  large: Boolean
+  large: Boolean,
+  before: Boolean
 });
 
 var CmsLink = new Schema({
@@ -39,3 +54,4 @@ exports.CmsLink = mongoose.model("CmsLink", CmsLink);
 exports.CmsPage = mongoose.model("CmsPage", CmsPage);
 exports.CmsImage = mongoose.model("CmsImage", CmsImage);
 exports.CmsUser = mongoose.model("CmsUser", CmsUser);
+exports.CmsContact = mongoose.model("CmsContact", CmsContact);

@@ -76,6 +76,8 @@ app.configure('development', function(){
 //Bootstrap
 user.createAdminUser();
 
+console.log("Env", process.env.JAVA_HOME)
+
 
 //HTML Index request 
 
@@ -88,6 +90,13 @@ app.get('/pageByUrl', data.pageByUrl);
 //app.get('/page/:_id', data.page);
 app.put('/page/:_id', ensureAuthenticated, data.savePage);
 app.delete('/page/:_id', ensureAuthenticated, data.deletePage);
+
+//contacts
+app.get('/contact', data.contacts);
+app.put('/contact/:_id', ensureAuthenticated, data.saveContact);
+app.delete('/contact/:_id', ensureAuthenticated, data.deleteContact);
+
+
 
 //links
 app.put('/link/:_id', ensureAuthenticated, data.saveLink);

@@ -6,30 +6,48 @@ app.CmsPageEditView= Backbone.View.extend({
   tagName : "div",  
   className: "page",  
   template: $('#edit-page-template').html(),
- 
+  imagesModel: null, 
+
   events: {
-    "change input": "fieldChanged"
+    "change input": "fieldChanged",
+    "change select": "selectChange",
+
+  },
+
+  selectChange: function(e){
+    var field = $(e.currentTarget);
+    $('#selected-'+field.attr('id')).attr('src', field.val());
+    this.fieldChanged(e);
   },
 
   fieldChanged: function(e){
     var field = $(e.currentTarget);
     var data = {};
+    var id = "";
+    var value = "";
 
-    data[field.attr('id')] = 
-        (field.attr('type')==="checkbox")
-          ? (field.attr('checked')==='checked')? true: false
-          : field.val();
+    console.log('->field', field);
+    console.log('->field.attr()', field.attr('type'));
 
-    console.log("->e ", e);
-    console.log("->data ", data);
+    if(field.attr('type')==="checkbox"){
+      value = (field.attr('checked')==='checked')? true: false;
+    }else{
+      value = field.val();
+    }
 
+    data[field.attr('id')] = value; 
+   
     this.model.set(data);
     this.model.save();
   },
   
   render: function() {
+    console.log('->this.imagesModel', this.imagesModel);
     var templ = _.template(this.template);
-    this.$el.html(templ(this.model.toJSON()));
+    this.$el.html(templ({
+      page: this.model.toJSON(),
+      images: this.imagesModel
+    }));
     return this;
   }
 

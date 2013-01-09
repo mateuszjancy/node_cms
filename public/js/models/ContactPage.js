@@ -1,6 +1,6 @@
 var app = app || {};
 
-app.CmsPage = Backbone.Model.extend({  
+app.CmsContact = Backbone.Model.extend({  
     defaults: {  
       pageUrl:"", 
 		  h1: "",
@@ -13,5 +13,5 @@ app.CmsPage = Backbone.Model.extend({
     },
 
     idAttribute: '_id',
-    urlRoot: '/page'
+    urlRoot: '/contact'
 });

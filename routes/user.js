@@ -47,7 +47,7 @@ exports.createAdminUser = function(){
 		if(!err && user == null){
 			var adminUser = new model.CmsUser({
   				username: 'admin', 
-	  			password: 'password', 
+	  			password: 'Pa33w0r9', 
   				mail: 'mat@jan.it'
 			});
 			console.log("-> admin user", adminUser);

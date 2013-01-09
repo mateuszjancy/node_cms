@@ -75,10 +75,18 @@ app.AppRouter = Backbone.Router.extend({
 	},
 
 	managePage: function(id){
-		var pageModel = app.cmsPageCollection.get(id);
-		var pageView = new app.CmsPageEditView({model: pageModel});
-		$("#page-management-container").html(pageView.render().el);
-		$('#page-managemant').modal();
+		app.cmsImageCollection.fetch({
+			success: function(){
+				var pageModel = app.cmsPageCollection.get(id);
+				var pageView = new app.CmsPageEditView({model: pageModel});
+				pageView.imagesModel = app.cmsImageCollection;
+		
+
+				$("#page-management-container").html(pageView.render().el);
+				$('#page-managemant').modal();		
+			}
+		});
+		
 		this.navigate("#main", {trigger: false, replace: true});
 	},
 
