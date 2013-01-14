@@ -40,6 +40,34 @@
     <a href="#pageByUrl/{{=pageUrl}}" > {{=label}} </a>
   </script>
 
+  <!-- Page CRUD -->
+  <script type="text/template" id="page-template">
+    <div id="read-only-page-{{=page._id}}" {{= (page.large===true)? 'class="jumbotron"':''}}>
+      <h1>
+        {{ if(page.h1.indexOf('.') !== -1) { }}
+          {{= page.h1.substring(0, page.h1.indexOf('.'))}}
+          <span class="muted">{{= page.h1.substring(page.h1.indexOf('.'))}}</span>
+        {{ }else{ }}
+          {{= page.h1}}
+        {{ } }}
+      </h1>
+      <p class="lead">
+        {{ if(page.before===true && page.imagePath !== '_') { }}
+          <img src="{{=page.imagePath}}" alt="" id="imagePath" class="img-rounded"/>
+        {{ } }}
+        {{=page.p}}
+        {{ if(page.before===false && page.imagePath !== '_') { }}
+          <img src="{{=page.imagePath}}" alt="" id="imagePath" class="img-rounded"/>
+        {{ } }}
+      </p>
+      <% if(isAuthenticated){ %>
+      <a href="#manage/page/{{=page._id}}" class="edit-page icon-edit"></a>
+      <a href="#remove/page/{{=page._id}}" class="remove-page icon-remove"></a>
+      <% } %>
+    </div>
+    <hr>
+  </script>
+
   <% if(isAuthenticated){ %>
   <script type="text/template" id="edit-page-template">
     <div class="form-horizontal">
@@ -101,54 +129,123 @@
   </script>
   <% } %>
 
+  <!-- Contact CRUD -->
   <script type="text/template" id="contact-template">
     <p class="lead">
-      <h1>Contact</h1>
+      <h1>About <span class="muted">{{= contact.companyName}}</span></h1>
       <address>
-        <strong>{{= contact.companyName}}</strong><br>
-        <abbr title="git">G:</abbr> {{=contact.git}}
-        <abbr title="linked">L:</abbr> {{=contact.linked}}
-        <abbr title="stack">S:</abbr> {{=contact.stack}}
+        <strong>{{= contact.motto}}</strong><br>
+        <abbr title="git">G:</abbr> {{=contact.git}}<br>
+        <abbr title="linked">L:</abbr> {{=contact.linked}}<br>
+        <abbr title="stack">S:</abbr> {{=contact.stack}}<br>
       </address>
-   
+      
+      <h2>Contact</h2>
       <address>
-        <strong>{{= contact.dislpayName}}</strong><br>
-        <a href="mailto:#">{{contact.mail}}</a>
+        <strong>{{= contact.displayName}}</strong><br>
+        <a href="mailto:#">{{=contact.mail}}</a>
       </address>
       <% if(isAuthenticated){ %>
-        <a href="#manage/page/{{contact._id}}" class="edit-page icon-edit"></a>
+        <a href="#manage/contact/{{=contact._id}}" class="edit-page icon-edit"></a>
       <% } %>
     </p>
   </script>
 
-  <script type="text/template" id="page-template">
-    <div id="read-only-page-{{=page._id}}" {{= (page.large===true)? 'class="jumbotron"':''}}>
-      <h1>
-        {{ if(page.h1.indexOf('.') !== -1) { }}
-          {{= page.h1.substring(0, page.h1.indexOf('.'))}}
-          <span class="muted">{{= page.h1.substring(page.h1.indexOf('.'))}}</span>
-        {{ }else{ }}
-          {{= page.h1}}
-        {{ } }}
-      </h1>
-      <p class="lead">
-        {{ if(page.before===true && page.imagePath !== '_') { }}
-          <img src="{{=page.imagePath}}" alt="" id="imagePath" class="img-rounded"/>
-        {{ } }}
-        {{=page.p}}
-        {{ if(page.before===false && page.imagePath !== '_') { }}
-          <img src="{{=page.imagePath}}" alt="" id="imagePath" class="img-rounded"/>
-        {{ } }}
-      </p>
-      <% if(isAuthenticated){ %>
-      <a href="#manage/page/{{=page._id}}" class="edit-page icon-edit"></a>
-      <a href="#remove/page/{{=page._id}}" class="remove-page icon-remove"></a>
-      <% } %>
-    </div>
-    <hr>
-  </script>
+  <% if(isAuthenticated){ %>
+  <script type="text/template" id="edit-contact-template">
+    <div class="form-horizontal">
+      <div class="control-group">
+        <label for="h1" class="control-label">Mail</label>
+        <div class="controls">
+          <input type="text" id="mail" name="mail" value="{{=contact.mail}}" class="input-large"/>
+        </div>
+      </div>
 
- 
+
+      <div class="control-group">
+        <label for="h1" class="control-label">Motto</label>
+        <div class="controls">
+          <input type="text" id="motto" name="motto" value="{{=contact.motto}}" class="input-large"/>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="h1" class="control-label">Company name</label>
+        <div class="controls">
+          <input type="text" id="companyName" name="companyName" value="{{=contact.companyName}}" class="input-large"/>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="h1" class="control-label">Display name</label>
+        <div class="controls">
+          <input type="text" id="displayName" name="displayName" value="{{=contact.displayName}}" class="input-large"/>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="h1" class="control-label">Git</label>
+        <div class="controls">
+          <input type="text" id="git" name="git" value="{{=contact.git}}" class="input-large"/>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="h1" class="control-label">Linked</label>
+        <div class="controls">
+          <input type="text" id="linked" name="linked" value="{{=contact.linked}}" class="input-large"/>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="h1" class="control-label">Stack</label>
+        <div class="controls">
+          <input type="text" id="stack" name="stack" value="{{=contact.stack}}" class="input-large"/>
+        </div>
+      </div>
+    </div>
+  </script>
+  <% } %>
+
+  <% if(isAuthenticated){ %>
+  <script type="text/template" id="edit-account-template">
+    <div class="form-horizontal">
+      <div class="control-group">
+        <label for="h1" class="control-label">Username</label>
+        <div class="controls">
+          <input type="text" id="username" name="username" value="{{=account.username}}" class="input-large"/>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="h1" class="control-label">Password</label>
+        <div class="controls">
+          <input type="password" id="password" name="password" value="{{=account.password}}" class="input-large"/>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="h1" class="control-label">Old password</label>
+        <div class="controls">
+          <input type="text" id="oldPassword" name="oldPassword" value="{{=account.oldPassword}}" class="input-large"/>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="h1" class="control-label">Admin mail</label>
+        <div class="controls">
+          <input type="text" id="mail" name="mail" value="{{=account.mail}}" class="input-large"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+        <button class="btn btn-primary"data-dismiss="modal" aria-hidden="true" id="account-save">Save</button>
+        <button class="btn"data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+
+  </script>
+  <% } %>
 
   <div class="container-narrow">
     
@@ -166,11 +263,11 @@
         </div>
       </div>
     </div>
-   
     
     <div id="add-page-container"></div>  
     <div id="page-container" class="page-container"></div>
 
+    <!-- Page management -->
     <div id="page-managemant" 
         class="modal hide fade" 
         tabindex="-1" 
@@ -192,6 +289,49 @@
     </div>
   </div>
 
+  <!--Contact management -->
+  <div id="contact-managemant" 
+        class="modal hide fade" 
+        tabindex="-1" 
+        role="dialog" 
+        aria-labelledby="contact-modal-header-label" 
+        aria-hidden="true"
+      >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="contact-modal-header-label">Contact management</h3>
+      </div>
+      <div class="modal-body">
+        <p>Links</p>
+        <div id="contact-management-container"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary"data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!--Account management -->
+  <div id="account-managemant" 
+        class="modal hide fade" 
+        tabindex="-1" 
+        role="dialog" 
+        aria-labelledby="account-modal-header-label" 
+        aria-hidden="true"
+      >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="account-modal-header-label">Account management</h3>
+      </div>
+      <div class="modal-body">
+        <p>Links</p>
+        <div id="account-management-container"></div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Menu management -->
     <div id="menu-managemant" 
         class="modal hide fade" 
         tabindex="-1" 
@@ -213,6 +353,7 @@
       </div>
     </div>
   </div>
+
   <!-- File uploader -->
   <div id="image-managemant" 
     class="modal hide fade" 
@@ -240,11 +381,12 @@
     </div>
   </div>
   
-
   <!-- Admin panel-->
   <div class="navbar navbar-fixed-bottom" id="admin-page">
     © MJS 2012
     <% if(isAuthenticated){ %>
+     |
+    <a href="#manage/account">Account</a>
      |
     <a href="/logout">Logout</a>
      |
@@ -257,6 +399,8 @@
      |
     <a href="/login">Login</a>
     <% } %>
+     |
+    <a href="#play">Ready to play... ?</a>
   </div>
 
   
@@ -269,6 +413,8 @@
   <script src="js/models/Link.js"></script>
   <script src="js/models/Page.js"></script>
   <script src="js/models/Image.js"></script>
+  <script src="js/models/Contact.js"></script>
+  <script src="js/models/Account.js"></script>
 
   <script src="js/collections/Link.js"></script>
   <script src="js/collections/Page.js"></script>
@@ -285,6 +431,11 @@
 
   <script src="js/views/Image.js"></script>
   <script src="js/views/ImageList.js"></script>
+
+  <script src="js/views/Contact.js"></script>
+  <script src="js/views/ContactEdit.js"></script>
+
+  <script src="js/views/Account.js"></script>
   
   <script src="js/routers/router.js"></script>
   

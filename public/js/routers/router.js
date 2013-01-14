@@ -18,11 +18,33 @@ app.AppRouter = Backbone.Router.extend({
 		//Image
 		"manage/image": "manageImage",
 		"remove/image/:id": "removeImage",
-
+		//Contact
+		"manage/contact/:id": "manageContact",
+		//Account
+		"manage/account": "manageAccount"
 	},
 
 	main: function(){
 
+	},
+
+	manageContact : function(){
+		app.contact = new app.CmsContact();
+		app.contactEditView = new app.CmsContactEditView({model: app.contact});
+		app.contact.fetch();
+
+		$("#contact-management-container").html(app.contactEditView.render().el);
+		$('#contact-managemant').modal();
+		this.navigate("#main", {trigger: false, replace: true});
+	},
+
+	manageAccount : function(){
+		app.account = new app.CmsAccount();
+		app.accountEditView = new app.CmsAccountEditView({model: app.account});
+		
+		$("#account-management-container").html(app.accountEditView.render().el);
+		$('#account-managemant').modal();
+		this.navigate("#main", {trigger: false, replace: true});
 	},
 
 	list: function(){
@@ -43,13 +65,18 @@ app.AppRouter = Backbone.Router.extend({
 		$("#menu-container").html(app.linkListView.render().el);
 	},
 
-	//z 8/36 a
 	pageByUrlDetails: function(pUrl){
 		app.cmsPageCollection.reset();
 		PAGE_URL = pUrl;
-		app.cmsPageCollection.fetch({data: { pageUrl:PAGE_URL }, url: 'pageByUrl'});
-
-		$('#page-container').html(app.cmsPageListView.render().el);
+		if(PAGE_URL === "contact"){
+			app.contact = new app.CmsContact();
+			app.contactView = new app.CmsContactView({model: app.contact});
+			$('#page-container').html(app.contactView.render().el);
+			app.contact.fetch();
+		}else{
+			app.cmsPageCollection.fetch({data: { pageUrl:PAGE_URL }, url: 'pageByUrl'});
+			$('#page-container').html(app.cmsPageListView.render().el);	
+		}
 	},
 
 	createPage: function(){

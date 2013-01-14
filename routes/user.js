@@ -47,11 +47,46 @@ exports.createAdminUser = function(){
 		if(!err && user == null){
 			var adminUser = new model.CmsUser({
   				username: 'admin', 
-	  			password: 'Pa33w0r9', 
-  				mail: 'mat@jan.it'
+	  			password: 'Pa$$w0rd', 
+  				mail: 'cms@node.js'
 			});
 			console.log("-> admin user", adminUser);
 			adminUser.save();
 		}	
 	})
 };
+
+
+exports.createContactPage = function(){
+	model.CmsContact.findOne(function(err, contact){
+		console.log("->in createContactPage", contact);
+		if(!err && contact == null){
+			var newContact = new model.CmsContact({
+				motto: "motto",
+  				mail: "mail",
+  				companyName: "companyName",
+  				displayName: "displayName",
+  				git: "git",
+  				linked: "linked",
+  				stack: "stack",
+  				order: 0
+			});
+			console.log("-> newContact", newContact);
+			newContact.save();
+		}	
+	})
+};
+
+
+exports.saveAccount = function(req, res){
+	if(CREATE_USER_ALLOWED === true){
+		model.CmsUser.findOne({username:'admin'}, function(err, user){
+			if(!err && user != null && req.body.oldPassword === user.password){
+  				user.username = req.body.username, 
+	  			user.password = req.body.password, 
+  				user.mail = req.body.mail
+				user.save();
+			}	
+		});
+	}
+}

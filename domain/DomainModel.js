@@ -4,21 +4,18 @@ var Schema = mongoose.Schema;
 var CmsUser = new Schema({
   username: String, 
   password: String, 
-  mail: String,
-  companyName: String,
-  displayName: String,
-  git: String,
-  linked: String,
-  stack: String
+  mail: String
 });
 
 var CmsContact = new Schema({
+  motto: String,
   mail: String,
   companyName: String,
   displayName: String,
   git: String,
   linked: String,
-  stack: String
+  stack: String,
+  order: Number
 });
 
 var CmsPage = new Schema({

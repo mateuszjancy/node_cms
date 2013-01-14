@@ -75,6 +75,7 @@ app.configure('development', function(){
 
 //Bootstrap
 user.createAdminUser();
+user.createContactPage();
 
 console.log("Env", process.env.JAVA_HOME)
 
@@ -92,7 +93,7 @@ app.put('/page/:_id', ensureAuthenticated, data.savePage);
 app.delete('/page/:_id', ensureAuthenticated, data.deletePage);
 
 //contacts
-app.get('/contact', data.contacts);
+app.get('/contact', data.contact);
 app.put('/contact/:_id', ensureAuthenticated, data.saveContact);
 app.delete('/contact/:_id', ensureAuthenticated, data.deleteContact);
 
@@ -110,6 +111,7 @@ app.delete('/image/:_id', ensureAuthenticated, data.deleteImage);
 
 //User
 app.get('/login', user.login);
+app.post('/saveAccount', ensureAuthenticated, user.saveAccount);
 
 app.post(
   '/login', 
@@ -126,11 +128,9 @@ http.createServer(app).listen(app.get('port'), function(){
 });
 
 function ensureAuthenticated(req, res, next) {
-  console.log("-> ensureAuthenticated", req.isAuthenticated());
   if (req.isAuthenticated()) { 
     return next(); 
   }
-  //res.method = 'get'; 
   res.send({
     redirect:'/login'
   });

@@ -61,9 +61,12 @@ exports.deletePage = function(req, res){
 	res.send("ok");
 };
 
-exports.contacts = function(req, res){
-	model.CmsContact.find(function(err, contacts){
-		if(!err) req.send(contacts);
+exports.contact = function(req, res){
+	console.log("in contact");
+	model.CmsContact.find({}, function(err, contact){
+		console.log("in contact find", contact);
+		if(!err) res.send(contact[0]);
+		else res.send(err);
 	});
 };
 
@@ -75,25 +78,29 @@ exports.deleteContact = function(req, res){
 exports.saveContact = function(req, res){
 	if(req.params._id === '-1'){
 		var contact = new mode.CmsContact({
+			motto: req.body.motto, 
 			mail: req.body.mail,
   			companyName: req.body.companyName,
   			displayName: req.body.displayName,
   			git: req.body.git,
   			linked: req.body.linked,
-  			stack: req.body.stack
+  			stack: req.body.stack,
+  			order: req.body.order
 		})
 
 		contact.save(function(err, savedContact){
 			if(!err) res.send(savedContact);
 		});
 	}else{
-		mode.CmsContact.findOneAndUpdate({_id:req.params._id}, {
+		model.CmsContact.findOneAndUpdate({_id:req.params._id}, {
+			motto: req.body.motto, 
 			mail: req.body.mail,
   			companyName: req.body.companyName,
   			displayName: req.body.displayName,
   			git: req.body.git,
   			linked: req.body.linked,
-  			stack: req.body.stack	
+  			stack: req.body.stack,
+  			order: req.body.order
 		}, function(err, savedContact){
 			if(!err) res.send(savedContact);
 		})
