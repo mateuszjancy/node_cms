@@ -5,7 +5,7 @@
 
 var DB = {
   DEV: 'mongodb://localhost/node_cms',
-  PROD: 'mongodb://admin:'+ process.env.DB_PASS +'@ds043447.mongolab.com:43447/node_cms'
+  PROD: process.env.DB_CONNECTION
 };
 
 var express = require('express')
@@ -27,7 +27,7 @@ mongoose.connect("@ds043447.mongolab.com", "node_cms", "43447", {user: 'mateusz.
 });
 */
 
-mongoose.connect(DB.DEV);
+mongoose.connect(DB.PROD);
 
 
 passport.serializeUser(function(user, done) {
