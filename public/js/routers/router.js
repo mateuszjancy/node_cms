@@ -64,6 +64,7 @@ app.AppRouter = Backbone.Router.extend({
 		$('#edit-page-container').html("");
 		$("#menu-container").html(app.linkListView.render().el);
 	},
+	
 
 	pageByUrlDetails: function(pUrl){
 		app.cmsPageCollection.reset();
