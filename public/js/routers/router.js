@@ -68,6 +68,7 @@ app.AppRouter = Backbone.Router.extend({
 	pageByUrlDetails: function(pUrl){
 		app.cmsPageCollection.reset();
 		PAGE_URL = pUrl;
+		console.log("->PAGE_URL", PAGE_URL);
 		if(PAGE_URL === "contact"){
 			app.contact = new app.CmsContact();
 			app.contactView = new app.CmsContactView({model: app.contact});

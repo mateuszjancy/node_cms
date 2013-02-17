@@ -61,21 +61,29 @@ exports.createAdminUser = function(){
 
 exports.createContactPage = function(){
 	model.CmsContact.findOne(function(err, contact){
-		console.log("->in createContactPage", contact);
 		if(!err && contact == null){
 			var newContact = new model.CmsContact({
-				motto: "motto",
-  				mail: "mail",
-  				companyName: "companyName",
-  				displayName: "displayName",
-  				git: "git",
-  				linked: "linked",
-  				stack: "stack",
+				motto: "I know how to walk... now I want to know how to fly",
+  				mail: "mateusz.jancy@gmail.com",
+  				companyName: "Mateusz Jancy Systems",
+  				displayName: "Mateusz Jancy Systems",
+  				git: "https://github.com/mateuszjancy/",
+  				linked: "",
+  				stack: "http://stackoverflow.com/users/1269826/matusz",
   				order: 0
 			});
-			console.log("-> newContact", newContact);
 			newContact.save();
-		}	
+		}else{
+			contact.motto = "I know how to walk... now I want to know how to fly",
+  			contact.mail = "mateusz.jancy@gmail.com",
+  			contact.companyName = "Mateusz Jancy Systems",
+  			contact.displayName = "Mateusz Jancy Systems",
+  			contact.git = "https://github.com/mateuszjancy/",
+  			contact.linked = "",
+  			contact.stack = "http://stackoverflow.com/users/1269826/matusz",
+  			contact.order = 0
+  			contact.save();
+		}
 	})
 };
 

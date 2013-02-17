@@ -27,7 +27,7 @@ mongoose.connect("@ds043447.mongolab.com", "node_cms", "43447", {user: 'mateusz.
 });
 */
 
-mongoose.connect(DB.PROD);
+mongoose.connect(DB.DEV);
 
 
 passport.serializeUser(function(user, done) {

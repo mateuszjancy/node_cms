@@ -57,7 +57,10 @@ exports.savePage = function(req, res){
 };
 
 exports.deletePage = function(req, res){
-	model.CmsPage.remove({_id: req.params._id});
+	model.CmsPage.remove({_id: req.params._id}, function(err){
+		console.log("->err",err);
+	});
+	console.log("page removed", req.params._id);
 	res.send("ok");
 };
 
