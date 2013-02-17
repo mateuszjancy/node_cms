@@ -44,7 +44,7 @@ exports.findByUsername = function(username, callback){
 exports.createAdminUser = function(){
 	model.CmsUser.findOne({username:'admin'}, function(err, user){
 		console.log("->in createAdminUser", user);
-		if(!err && user == null){
+		if(!err && user===null){
 			var adminUser = new model.CmsUser({
   				username: 'admin', 
 	  			password: 'Pa$$w0rd', 
@@ -52,7 +52,9 @@ exports.createAdminUser = function(){
 			});
 			console.log("-> admin user", adminUser);
 			adminUser.save();
-		}	
+		}else{
+			console.log("->err", err);
+		}
 	})
 };
 

@@ -74,6 +74,7 @@ app.AppRouter = Backbone.Router.extend({
 			$('#page-container').html(app.contactView.render().el);
 			app.contact.fetch();
 		}else{
+			console.log("-> in get page");
 			app.cmsPageCollection.fetch({data: { pageUrl:PAGE_URL }, url: 'pageByUrl'});
 			$('#page-container').html(app.cmsPageListView.render().el);	
 		}

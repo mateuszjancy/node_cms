@@ -4,3 +4,15 @@ http://www.vogella.com/articles/Git/article.html
 git add -A
 git commit -m "comment"
 git push git@github.com:mateuszjancy/node_cms.git master
+
+git fetch git@github.com:mateuszjancy/kcalcalc.git master
+
+git diff master git@github.com:mateuszjancy/kcalcalc.git/master
+
+
+git merge git@github.com:mateuszjancy/kcalcalc.git master
+
+
+git push git@github.com:mateuszjancy/kcalcalc.git master
+
+git pull git@github.com:mateuszjancy/kcalcalc.git master

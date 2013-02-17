@@ -9,7 +9,7 @@ exports.links = function(req, res){
 };
 
 exports.pageByUrl = function(req, res){
-  	model.CmsPage.findByPageUrl(req.query.pageUrl.toLowerCase(), function(err, page){
+  	model.CmsPage.findByPageUrl(req.query.pageUrl, function(err, page){
   		if(!err) res.send(page);
   	});
 };

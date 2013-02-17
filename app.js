@@ -3,6 +3,11 @@
  * Module dependencies.
  */
 
+var DB = {
+  DEV: 'mongodb://localhost/node_cms',
+  PROD: 'mongodb://admin:pass@ds043447.mongolab.com:43447/node_cms'
+};
+
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
@@ -13,10 +18,16 @@ var express = require('express')
   , passport = require('passport')
   , util = require('util')
   , LocalStrategy = require('passport-local').Strategy
-  , mongoose = require("mongoose");
+  , mongoose = require("mongoose")
+  ;
 
+/*
+mongoose.connect("@ds043447.mongolab.com", "node_cms", "43447", {user: 'mateusz.jancy@gmail.com', pass: 'Artemida5870'}, function(){
+  console.log("connected");
+});
+*/
 
-mongoose.connect('mongodb://localhost/my_database');
+mongoose.connect(DB.PROD);
 
 
 passport.serializeUser(function(user, done) {
@@ -111,7 +122,7 @@ app.delete('/image/:_id', ensureAuthenticated, data.deleteImage);
 
 //User
 app.get('/login', user.login);
-app.post('/saveAccount', ensureAuthenticated, user.saveAccount);
+app.post('/account', ensureAuthenticated, user.saveAccount);
 
 app.post(
   '/login', 

@@ -11,6 +11,7 @@ app.CmsPageListView= Backbone.View.extend({
   },
   
   render: function() {
+    console.log("->model:page", this.model.models);
     $(this.el).html("");
     _.each(this.model.models, function (page) {
       $(this.el).append(new app.CmsPageView({model:page}).render().el);
