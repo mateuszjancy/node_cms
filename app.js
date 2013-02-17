@@ -5,7 +5,7 @@
 
 var DB = {
   DEV: 'mongodb://localhost/node_cms',
-  PROD: 'mongodb://admin:pass@ds043447.mongolab.com:43447/node_cms'
+  PROD: 'mongodb://admin:'+ process.env.DB_PASS +'@ds043447.mongolab.com:43447/node_cms'
 };
 
 var express = require('express')
